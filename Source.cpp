@@ -3,12 +3,14 @@ Author: Marcin Gesek - marcin.gesek79@gmail.com
 Title: Validator for credit cards.
 Description:
 	Requirements for validation:
-		Visa: Number must start with a 4 and have 13-16-19 digits.
-		Mastercard: Number must start with 51,52,53,54,55 or 222100-272099 and have 16 digits
+		1) Visa: Number must start with a 4 and have 13-16-19 digits.
+		2) Mastercard: Number must start with 51,52,53,54,55 or 222100-272099 and have 16 digits
 */
 
 #include<iostream>
 #include<string>
+#define NUM_OF_TYPES 2
+
 
 // Calculates the last digit of the number using Luhn's algorithm.
 int calculateCheckDigit(std::string creditCardNumber, int* checkDigit) {
@@ -43,6 +45,8 @@ void checkIsValid(int checkDigit, int calculatedCheckDigit) {
 	else {
 		std::cout << "Number is not valid." << std::endl;
 	}
+
+	std::cout << std::endl;
 }
 
 // Checks if this is a visa card number
@@ -52,21 +56,64 @@ bool checkIsVisa(std::string creditCardNumber) {
 		creditCardNumber.length() == 19) && std::stoi(std::string(1, creditCardNumber[0])) == 4) {
 		return true;
 	}
-	else return false;
+	std::cout << "This is not a Visa card." << std::endl << std::endl;
+	return false;
+}
+
+// Checks if this is a mastercard card number
+bool checkIsMastercard(std::string creditCardNumber) {
+	int numberPrefix = std::stoi(creditCardNumber.substr(0, 2));
+	int longNumberPrefix = std::stoi(creditCardNumber.substr(0, 6));
+	if (creditCardNumber.length() == 16) {
+		if ((numberPrefix >= 51 && numberPrefix <= 55) || (longNumberPrefix >= 222100 && longNumberPrefix <= 272099)) {
+			return true;
+		}
+	}
+	std::cout << "This is not a Mastercard card." << std::endl << std::endl;
+	return false;
+}
+
+void validateCard(int cardType) {
+	int checkDigit;
+	std::string creditCardNumber = "";
+
+	std::cout << "Please, enter your number: ";
+	std::cin >> creditCardNumber;
+
+	switch (cardType) {
+	case 1:
+		// Visa
+		if (!checkIsVisa(creditCardNumber)) return;
+		break;
+	case 2:
+		// Mastercard
+		if (!checkIsMastercard(creditCardNumber)) return;
+		break;
+	}
+
+	checkIsValid(checkDigit, calculateCheckDigit(creditCardNumber, &checkDigit));
+}
+
+// Shows menu and handles input
+void inputMenu() {
+	int choice;
+	
+	while (true) {
+		std::cout << "What card do you want to validate?" << std::endl;
+		std::cout << "1) Visa" << std::endl;
+		std::cout << "2) Mastercard" << std::endl;
+		std::cout << "0) Exit" << std::endl;
+		std::cout << "Your choice: ";
+		std::cin >> choice;
+		std::cout << std::endl;
+
+		if (choice > 0 && choice <= NUM_OF_TYPES) {
+			validateCard(choice);
+		}
+		else break;
+	}
 }
 
 int main() {
-	// Input
-	int checkDigit = NULL;
-	std::string creditCardNumber = "";
-	std::cout << "Please, enter your number: ";
-	std::cin >> creditCardNumber;
-	
-	if (checkIsVisa(creditCardNumber)) {
-		checkIsValid(checkDigit, calculateCheckDigit(creditCardNumber, &checkDigit));
-	}
-	else {
-		std::cout << "This is not a visa card." << std::endl;
-	}
-	
+	inputMenu();
 }
