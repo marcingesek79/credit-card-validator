@@ -1,4 +1,12 @@
-// Validator for Visa cards. Number must start with a 4 and have 13-16-19 digits.
+/* 
+Author: Marcin Gesek - marcin.gesek79@gmail.com
+Title: Validator for credit cards.
+Description:
+	Requirements for validation:
+		Visa: Number must start with a 4 and have 13-16-19 digits.
+		Mastercard: Number must start with 51,52,53,54,55 or 222100-272099 and have 16 digits
+*/
+
 #include<iostream>
 #include<string>
 
