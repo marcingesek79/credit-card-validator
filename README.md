@@ -1,2 +1,2 @@
 # credit-card-validation
-C++ program, that validates common credit cards
+C++ program, that validates common credit cards using Luhn's algorithm
