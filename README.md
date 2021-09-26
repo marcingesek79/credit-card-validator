@@ -1,7 +1,7 @@
 # credit-card-validation
 C++ program, that validates common credit card numbers.
 
-###Supported credit cards:
+### Supported credit cards:
 - Visa
 - Visa Electron
 - Mastercard
