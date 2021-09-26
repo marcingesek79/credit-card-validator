@@ -4,12 +4,13 @@ Title: Validator for credit cards.
 Description:
 	Requirements for validation:
 		1) Visa: Number must start with a 4 and have 13-16-19 digits.
-		2) Mastercard: Number must start with 51,52,53,54,55 or 222100-272099 and have 16 digits
+		2) Mastercard: Number must start with 51, 52, 53, 54, 55 or 222100-272099 and have 16 digits
+		3) Visa Electron: Number must start with 4026, 417500, 4508, 4844, 4913 or 4917 and have 16 digits
 */
 
 #include<iostream>
 #include<string>
-#define NUM_OF_TYPES 2
+#define NUM_OF_TYPES 3
 
 
 // Calculates the last digit of the number using Luhn's algorithm.
@@ -73,6 +74,19 @@ bool checkIsMastercard(std::string creditCardNumber) {
 	return false;
 }
 
+// Checks if this is a visa electron card number
+bool checkIsVisaElectron(std::string creditCardNumber) {
+	int numberPrefix = std::stoi(creditCardNumber.substr(0, 4));
+	int longNumberPrefix = std::stoi(creditCardNumber.substr(0, 6));
+	if (creditCardNumber.length() == 16) {
+		if (numberPrefix == 4026 || numberPrefix == 4508 ||
+			numberPrefix == 4844 || numberPrefix == 4913 ||
+			numberPrefix == 4917 || longNumberPrefix == 417500) return true;
+	}
+	std::cout << "This is not a Visa Electron card." << std::endl << std::endl;
+	return false;
+}
+
 void validateCard(int cardType) {
 	int checkDigit;
 	std::string creditCardNumber = "";
@@ -89,6 +103,10 @@ void validateCard(int cardType) {
 		// Mastercard
 		if (!checkIsMastercard(creditCardNumber)) return;
 		break;
+	case 3:
+		// Visa Electron
+		if (!checkIsVisaElectron(creditCardNumber)) return;
+		break;
 	}
 
 	checkIsValid(checkDigit, calculateCheckDigit(creditCardNumber, &checkDigit));
@@ -102,6 +120,7 @@ void inputMenu() {
 		std::cout << "What card do you want to validate?" << std::endl;
 		std::cout << "1) Visa" << std::endl;
 		std::cout << "2) Mastercard" << std::endl;
+		std::cout << "3) Visa Electron" << std::endl;
 		std::cout << "0) Exit" << std::endl;
 		std::cout << "Your choice: ";
 		std::cin >> choice;
