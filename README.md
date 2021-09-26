@@ -7,5 +7,5 @@ C++ program, that validates common credit card numbers.
 - Mastercard
 - American Express
 
-**Author: Marcin Gesek**
+**Author: Marcin Gesek**\
 **Email: marcin.gesek79@gmail.com**
