@@ -6,11 +6,12 @@ Description:
 		1) Visa: Number must start with a 4 and have 13-16-19 digits.
 		2) Mastercard: Number must start with 51, 52, 53, 54, 55 or 222100-272099 and have 16 digits
 		3) Visa Electron: Number must start with 4026, 417500, 4508, 4844, 4913 or 4917 and have 16 digits
+		4) American Express: Number must start with 34 or 37 and have 15 digits.
 */
 
 #include<iostream>
 #include<string>
-#define NUM_OF_TYPES 3
+#define NUM_OF_TYPES 4
 
 
 // Calculates the last digit of the number using Luhn's algorithm.
@@ -52,9 +53,10 @@ void checkIsValid(int checkDigit, int calculatedCheckDigit) {
 
 // Checks if this is a visa card number
 bool checkIsVisa(std::string creditCardNumber) {
+	int numberPrefix = std::stoi(creditCardNumber.substr(0, 1));
 	if ((creditCardNumber.length() == 13 ||
 		creditCardNumber.length() == 16 ||
-		creditCardNumber.length() == 19) && std::stoi(std::string(1, creditCardNumber[0])) == 4) {
+		creditCardNumber.length() == 19) && numberPrefix == 4) {
 		return true;
 	}
 	std::cout << "This is not a Visa card." << std::endl << std::endl;
@@ -87,6 +89,14 @@ bool checkIsVisaElectron(std::string creditCardNumber) {
 	return false;
 }
 
+// Checks if this is a American Express card number
+bool checkIsAmericanExpress(std::string creditCardNumber) {
+	int numberPrefix = std::stoi(creditCardNumber.substr(0, 2));
+	if (creditCardNumber.length() == 15 && (numberPrefix == 34 || numberPrefix == 37)) return true;
+	std::cout << "This is not an American Express card." << std::endl << std::endl;
+	return false;
+}
+
 void validateCard(int cardType) {
 	int checkDigit;
 	std::string creditCardNumber = "";
@@ -107,6 +117,10 @@ void validateCard(int cardType) {
 		// Visa Electron
 		if (!checkIsVisaElectron(creditCardNumber)) return;
 		break;
+	case 4:
+		// American Express
+		if (!checkIsAmericanExpress(creditCardNumber)) return;
+		break;
 	}
 
 	checkIsValid(checkDigit, calculateCheckDigit(creditCardNumber, &checkDigit));
@@ -121,6 +135,7 @@ void inputMenu() {
 		std::cout << "1) Visa" << std::endl;
 		std::cout << "2) Mastercard" << std::endl;
 		std::cout << "3) Visa Electron" << std::endl;
+		std::cout << "4) American Express" << std::endl;
 		std::cout << "0) Exit" << std::endl;
 		std::cout << "Your choice: ";
 		std::cin >> choice;
