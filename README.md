@@ -1,4 +1,4 @@
-# credit-card-validation
+# credit-card-validator
 C++ program, that validates common credit card numbers.
 
 ### Supported credit cards:
@@ -7,5 +7,12 @@ C++ program, that validates common credit card numbers.
 - Mastercard
 - American Express
 
-**Author: Marcin Gesek**\
-**Email: marcin.gesek79@gmail.com**
+### How to run
+```
+    mkdir build && cd build
+    cmake .. && cmake --build .
+    ./card-validator
+```
+
+### 20.07.2023 Update
+Refactored code, added cmake
